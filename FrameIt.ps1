@@ -24,6 +24,29 @@ The very first dialog that pops up is a hack.  Without this the
 other dialogs will not show correctly unless running under ISE.
 Must bring in/set some attribute that I have yet to figure out.
 
+
+Source Code Layout:
+
+	File scoped variables
+	
+	Utility functions
+	
+		Interactions with the Meural API are via a set of 
+		functions named API.....
+		
+		Function authenticateMe does exactly that.  Dispite many
+		invocations, authentication only happens once.
+		
+	For each of the dialogs there are grouped together
+	
+		Logic functions
+		A function that builds the dialog
+		
+	Driver is at the bottom of the file
+	
+		Search for MAIN START
+
+
 Victor Gettler
 #>
 
