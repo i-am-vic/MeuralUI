@@ -319,9 +319,9 @@ Function authenticateMe {
 
             <#
             curl --location -X POST "https://api.meural.com/v0/authenticate/" ^
-            --data-urlencode "email=vgettlerg2@gmail.com" ^
-            --data-urlencode "username=vgettlerg2@gmail.com"
-            --data-urlencode "password=C@untryH6m#" >AuthToken.txt
+            --data-urlencode "email=xxxxxxxx@xxxxxx.com" ^
+            --data-urlencode "username=xxxxxxxx@xxxxxx.com"
+            --data-urlencode "password=xxxxxxxxx" >AuthToken.txt
             #>
            
             $param = @{
