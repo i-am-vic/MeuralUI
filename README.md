@@ -43,9 +43,11 @@ To execute:
 
 FUTURE todos for some day in the future, not in any particular order:
 
+    Add LOGOFF from Meual Account function.
     Make User ID and password handling more secure.
     Break FrameIt.ps1 into smaller parts.
     Improve look of dialogs.
+    Allow for minimizing dialogs.
     Remove need for that very first poppup message: figure out what underlying
         .NET assembly or whatever is brought in by the poppup and include that
         in the Powershell source part.
