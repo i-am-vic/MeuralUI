@@ -5577,12 +5577,14 @@ Function Form_StateCorrection_Load
 }
 
 
-
-
 #
 # MAIN START
 #
 #
+if ("7" -gt (@($PSVersionTable.Values)[8])) {
+    Write-host "FrameIt requires PowerShell v7 or higher. The version you are running is not currently supported:" $PSVersionTable.PSVersion
+    break
+}
 try {
 
     Build_Work_With_Gallery_Dialog | Out-Null
@@ -5599,6 +5601,7 @@ try {
     # Display the message box to initialize internal Windows settings 
     # that control the GUI look and feel
     #
+
     [System.Windows.MessageBox]::Show('Come on in, the gate is open!','Swinging Gate','OK',0) | Out-Null 
 
     Do {
@@ -5656,6 +5659,7 @@ finally {
     Get-ChildItem $targetName | ForEach-Object { Remove-Item -Path $_.FullName }
 
 }
+    
 
 
 <#
