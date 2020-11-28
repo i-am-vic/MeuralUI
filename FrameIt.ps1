@@ -208,6 +208,22 @@ $Script:alFileList = New-Object 'System.Collections.ArrayList'
 # Utility functions =====================================
 #========================================================
 
+function MaxDialogSizeTweak (){
+    $ScreenSize = [System.Windows.Forms.Screen]::PrimaryScreen
+    $PrimaryScrW = $ScreenSize.WorkingArea.Width
+    $PrimaryScrH = $ScreenSize.Bounds.Height  # not presently using this
+    # either workingArea or Bounds seems to work
+    Switch ($PrimaryScrW) {
+        "1920" {
+            $Script:WidthMax = 1900
+            $Script:HeightMax = 900
+        }
+        default {
+            $Script:WidthMax = 2700
+            $Script:HeightMax = 1600
+        }
+    }
+}
 function Resize-Image
 {
    <#
@@ -2221,7 +2237,7 @@ Function Build_Define_Galleries_Dialog ()
         $Script:formGalleries.Location  = New-Object System.Drawing.Point(1000,500)
         $Script:formGalleries.StartPosition = 'CenterScreen'
         $Script:formGalleries.WindowState = 'Normal'
-        $Script:formGalleries.ClientSize = New-Object System.Drawing.Size(2700,1600)
+        $Script:formGalleries.ClientSize = New-Object System.Drawing.Size($WidthMax,$HeightMax)
         $Script:formGalleries.Name = 'formGalleriesWorkWith'
         $Script:formGalleries.Text = $Script:formGalleriesTitle
          
@@ -4017,7 +4033,7 @@ Function Build_Work_With_Gallery_Dialog ()
         $Script:formGalleryFiles.Location = New-Object System.Drawing.Point(1000,500)
         $Script:formGalleryFiles.StartPosition = 'CenterScreen'
         $Script:formGalleryFiles.WindowState = 'Normal'
-        $Script:formGalleryFiles.ClientSize = New-Object System.Drawing.Size(2700,1600)
+        $Script:formGalleryFiles.ClientSize = New-Object System.Drawing.Size($WidthMax,$HeightMax)
         $Script:formGalleryFiles.Name = 'formGallery'
         $Script:formGalleryFiles.Text = $Script:myVersion + ' Work With Gallery Files'
         
@@ -5577,12 +5593,17 @@ Function Form_StateCorrection_Load
 }
 
 
-
-
 #
 # MAIN START
 #
 #
+#if ("7" -gt ($PSVersionTable.PSVersion.Major)) {
+    if (($PSVersionTable.PSVersion.Major) -lt "7") {    #PS proper would be to put known value on left for comparison (v on right for assignment), but this is a bit more 'human' readable
+    Write-host "FrameIt requires PowerShell v7 or higher. The version you are running is not currently supported:" $PSVersionTable.PSVersion
+    break
+}
+MaxDialogSizeTweak
+
 try {
 
     Build_Work_With_Gallery_Dialog | Out-Null
@@ -5599,7 +5620,8 @@ try {
     # Display the message box to initialize internal Windows settings 
     # that control the GUI look and feel
     #
-    [System.Windows.MessageBox]::Show('Come on in, the gate is open!','Swinging Gate','OK',0) | Out-Null 
+
+    #[System.Windows.MessageBox]::Show('Come on in, the gate is open!','Swinging Gate','OK',0) | Out-Null 
 
     Do {
 
@@ -5619,8 +5641,7 @@ try {
     }
     Until ($Script:formLogin.DialogResult -ne 'Retry')
 
-
-    if ($Script:formLogin.DialogResult -eq 'OK') {
+   if ($Script:formLogin.DialogResult -eq 'OK') {
 
         $authenticationToken = authenticateMe
 
@@ -5655,7 +5676,7 @@ finally {
     $targetName = $Script:iconFolder+"*"
     Get-ChildItem $targetName | ForEach-Object { Remove-Item -Path $_.FullName }
 
-}
+}    
 
 
 <#
