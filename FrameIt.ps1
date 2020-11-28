@@ -5597,7 +5597,8 @@ Function Form_StateCorrection_Load
 # MAIN START
 #
 #
-if ("7" -ge (@($PSVersionTable.Values)[8])) {
+#if ("7" -gt ($PSVersionTable.PSVersion.Major)) {
+    if (($PSVersionTable.PSVersion.Major) -lt "7") {    #PS proper would be to put known value on left for comparison (v on right for assignment), but this is a bit more 'human' readable
     Write-host "FrameIt requires PowerShell v7 or higher. The version you are running is not currently supported:" $PSVersionTable.PSVersion
     break
 }
@@ -5640,8 +5641,7 @@ try {
     }
     Until ($Script:formLogin.DialogResult -ne 'Retry')
 
-
-    if ($Script:formLogin.DialogResult -eq 'OK') {
+   if ($Script:formLogin.DialogResult -eq 'OK') {
 
         $authenticationToken = authenticateMe
 
@@ -5676,8 +5676,7 @@ finally {
     $targetName = $Script:iconFolder+"*"
     Get-ChildItem $targetName | ForEach-Object { Remove-Item -Path $_.FullName }
 
-}
-    
+}    
 
 
 <#
