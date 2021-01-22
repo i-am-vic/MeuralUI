@@ -978,35 +978,6 @@ Function GetGalleryFiles () {
                 $filecreateTime = $itemObj.updatedAt
                 $myItemID = $itemObj.id
 
-<#
-                #
-                # Create the icon filename and make sure it does not exist in the working folder
-                #           
-                if (($myPath.Length -gt 8) -and ($myPath.Substring(0,8) -eq '\Public\')) {
-
-                    $fullFileName = "C:\Users" + $myPath + "\" + $FName
-
-                    if (!(Test-Path $fullFileName)) {
-                        $fullFileName = $Script:defaultIconFolder + $Script:defaultIconFileName
-                    }
-                }
-
-                else {
-                    $fullFileName = $Script:defaultIconFolder + $Script:defaultIconFileName
-                }
-
-
-                $iconFileName = $Script:iconFolder + $FName
-
-                if (Test-Path $iconFileName) {
-                    Remove-Item $iconFileName | Out-Null
-                }
-
-                Resize-Image -InputFile $fullFileName -Scale 1 -OutputFile $iconFileName
-                $img = [System.Drawing.Image]::Fromfile($iconFileName)
-                $icon = [System.Drawing.Icon]::FromHandle($img.GetHicon())  
-#>
-
                 #
                 # Coming from netgear server
                 #
@@ -1015,19 +986,12 @@ Function GetGalleryFiles () {
                 #
                 # Populate the next row.
                 #  
-                #$row1 = @($FName, "Image", $atServer, $myPath, $filecreateTime, $icon, $myItemID)
 		$row1 = @($FName, "Image", $atServer, $myPath, $filecreateTime, $myItemID)
 
                 #
                 # Put new row in repository for display
                 #
                 $Script:dgvGalleryFiles.Rows.Add($row1) | Out-Null
-
-                #
-                # Free space, cleanup, get rid of locks
-                #
-                #$img.Dispose() | Out-Null
-                #$icon.Dispose() | Out-Null
 
             } # foreach
 
@@ -1038,9 +1002,7 @@ Function GetGalleryFiles () {
             $Script:dgvGalleryFiles.AutoResizeColumn(0) | Out-Null     # File name
             $Script:dgvGalleryFiles.AutoResizeColumn(1) | Out-Null     # Type
             $Script:dgvGalleryFiles.AutoResizeColumn(2) | Out-Null     # On server flag
-            #$Script:dgvGalleryFiles.AutoResizeColumn(3) | Out-Null     # Path segment
             $Script:dgvGalleryFiles.AutoResizeColumn(4) | Out-Null     # Creation date
-            #$Script:dgvGalleryFiles.AutoResizeColumn(5) | Out-Null     # Thumbnail
             $Script:dgvGalleryFiles.AutoResizeColumn(5) | Out-Null     # ID in gallery
 
         }
@@ -2810,7 +2772,6 @@ Function formGallery_Load
         $Script:dgvGalleryFiles.AutoResizeColumn(0) | Out-Null     # File name
         $Script:dgvGalleryFiles.AutoResizeColumn(1) | Out-Null     # Type
         $Script:dgvGalleryFiles.AutoResizeColumn(2) | Out-Null     # On server flag
-        #$Script:dgvGalleryFiles.AutoResizeColumn(3) | Out-Null     # Path segment
         $Script:dgvGalleryFiles.AutoResizeColumn(4) | Out-Null     # Creation date
         $Script:dgvGalleryFiles.AutoResizeColumn(5) | Out-Null     # Thumbnail
         $Script:dgvGalleryFiles.AutoResizeColumn(6) | Out-Null     # ID in gallery
@@ -2956,21 +2917,7 @@ function FileAddButton_Click()
                     #     $myPath = $fileProperty.DirectoryName.Substring(($startIndex))
                     # }               
                     $myPath = $fileProperty.DirectoryName
-        
-<#
-                    #
-                    # Create the icon filename and make sure it does not exist in the working folder
-                    #
-                    $iconFileName = $Script:iconFolder + $NameList.Item($FIdx)
-        
-                    if (Test-Path $iconFileName) {
-                        Remove-Item $iconFileName | Out-Null
-                    }
-        
-                    Resize-Image -InputFile $FName -Scale 1 -OutputFile $iconFileName
-                    $img = [System.Drawing.Image]::Fromfile($iconFileName)
-                    $icon = [System.Drawing.Icon]::FromHandle($img.GetHicon())
-  #>      
+           
                     #
                     # Meural ID, Meural image is unknown at this time
                     #
@@ -2983,21 +2930,13 @@ function FileAddButton_Click()
         
                     #
                     # Populate the next row.
-                    #    
-                    #$row1 = @($NameList.Item($FIdx), "Image", $atServer, $myPath, $filecreateTime, $icon, $myID)
+                    #
 		    $row1 = @($NameList.Item($FIdx), "Image", $atServer, $myPath, $filecreateTime, $myID)
-        
         
                     #
                     # Put new row in repository for display
                     #
                     $Script:dgvGalleryFiles.Rows.Add($row1) | Out-Null
-        
-                    #
-                    # Free space
-                    #
-                    #$img.Dispose() | Out-Null
-                    #$icon.Dispose() | Out-Null
     
                 }
                 else {
@@ -3029,9 +2968,7 @@ function FileAddButton_Click()
             $Script:dgvGalleryFiles.AutoResizeColumn(0) | Out-Null     # File name
             $Script:dgvGalleryFiles.AutoResizeColumn(1) | Out-Null     # Type
             $Script:dgvGalleryFiles.AutoResizeColumn(2) | Out-Null     # On server flag
-            #$Script:dgvGalleryFiles.AutoResizeColumn(3) | Out-Null     # Path segment
             $Script:dgvGalleryFiles.AutoResizeColumn(4) | Out-Null     # Creation date
-            #$Script:dgvGalleryFiles.AutoResizeColumn(5) | Out-Null     # Thumbnail
             $Script:dgvGalleryFiles.AutoResizeColumn(5) | Out-Null     # ID
 
         }
@@ -3351,12 +3288,6 @@ Function GalleryLocalFileLoadButton_Click () {
                     $Script:dgvGalleryFiles.Rows.Add($row1) | Out-Null
         
                     #
-                    # Free space
-                    #
-                    #$img.Dispose() | Out-Null
-                    #$icon.Dispose() | Out-Null
-        
-                    #
                     # Go to next file name in the list
                     #
                     $Fidx = $Fidx + 1
@@ -3375,9 +3306,7 @@ Function GalleryLocalFileLoadButton_Click () {
                 $Script:dgvGalleryFiles.AutoResizeColumn(0) | Out-Null     # File name
                 $Script:dgvGalleryFiles.AutoResizeColumn(1) | Out-Null     # Type
                 $Script:dgvGalleryFiles.AutoResizeColumn(2) | Out-Null     # On server flag
-                #$Script:dgvGalleryFiles.AutoResizeColumn(3) | Out-Null     # Path segment
                 $Script:dgvGalleryFiles.AutoResizeColumn(4) | Out-Null     # Creation date
-                #$Script:dgvGalleryFiles.AutoResizeColumn(5) | Out-Null     # Thumbnail
                 $Script:dgvGalleryFiles.AutoResizeColumn(5) | Out-Null     # ID
     
             } else {
@@ -3444,8 +3373,6 @@ function GalleryToServerButton_Click()
         $Script:dgvGalleryFiles.Columns[2].Name = "On Server"
         $Script:dgvGalleryFiles.Columns[3].Name = "Path"
         $Script:dgvGalleryFiles.Columns[4].Name = "Creation Date"   
-        #$Script:dgvGalleryFiles.Columns.Insert(5,$iconCol)
-        #$Script:dgvGalleryFiles.Columns[5].Name = "Icon"
         $Script:dgvGalleryFiles.Columns[5].Name = "ID"
 
         $Script:ActiveGalleryID
@@ -4254,8 +4181,6 @@ Function Build_Work_With_Gallery_Dialog ()
         $Script:dgvGalleryFiles.Columns[2].Name = "On Server"
         $Script:dgvGalleryFiles.Columns[3].Name = "Path"
         $Script:dgvGalleryFiles.Columns[4].Name = "Creation Date"   
-        #$Script:dgvGalleryFiles.Columns.Insert(5,$iconCol)
-        #$Script:dgvGalleryFiles.Columns[5].Name = "Icon"
         $Script:dgvGalleryFiles.Columns[5].Name = "ID"
 
         $Script:dgvGalleryFiles.Columns[0].SortMode = 'Automatic'
@@ -4263,7 +4188,6 @@ Function Build_Work_With_Gallery_Dialog ()
         $Script:dgvGalleryFiles.Columns[2].SortMode = 'Automatic'
         $Script:dgvGalleryFiles.Columns[3].SortMode = 'Automatic'
         $Script:dgvGalleryFiles.Columns[4].SortMode = 'Automatic'
-        #$Script:dgvGalleryFiles.Columns[5].SortMode = 'Automatic'
         $Script:dgvGalleryFiles.Columns[5].SortMode = 'Automatic'
 
     }
@@ -4397,7 +4321,6 @@ Function ServerFileAddButton_Click() {
         $Script:dgvFiles.AutoResizeColumn(0) | Out-Null     # File name
         $Script:dgvFiles.AutoResizeColumn(1) | Out-Null     # Type
         $Script:dgvFiles.AutoResizeColumn(2) | Out-Null     # On server flag
-        #$Script:dgvFiles.AutoResizeColumn(3) | Out-Null     # Path segment
         $Script:dgvFiles.AutoResizeColumn(4) | Out-Null     # Creation date
         $Script:dgvFiles.AutoResizeColumn(5) | Out-Null     # ID
         $Script:dgvFiles.AutoResizeColumn(6) | Out-Null     # gallery count
@@ -4571,7 +4494,6 @@ Function GetUserFiles () {
         $Script:dgvFiles.AutoResizeColumn(0) | Out-Null     # File name
         $Script:dgvFiles.AutoResizeColumn(1) | Out-Null     # Type
         $Script:dgvFiles.AutoResizeColumn(2) | Out-Null     # On server flag
-        #$Script:dgvFiles.AutoResizeColumn(3) | Out-Null     # Path segment
         $Script:dgvFiles.AutoResizeColumn(4) | Out-Null     # Creation date
         $Script:dgvFiles.AutoResizeColumn(5) | Out-Null     # ID in gallery
         $Script:dgvFiles.AutoResizeColumn(6) | Out-Null     # Number of galleries file is in
@@ -4606,7 +4528,6 @@ Function formFiles_Load () {
         $Script:dgvFiles.AutoResizeColumn(0) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(1) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(2) | Out-Null
-        #$Script:dgvFiles.AutoResizeColumn(3) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(4) | Out-Null   
         $Script:dgvFiles.AutoResizeColumn(5) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(6) | Out-Null
@@ -4906,7 +4827,6 @@ Function ServerFileDownloadButton_Click()
         $Script:dgvFiles.AutoResizeColumn(0) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(1) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(2) | Out-Null
-        #$Script:dgvFiles.AutoResizeColumn(3) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(4) | Out-Null   
         $Script:dgvFiles.AutoResizeColumn(5) | Out-Null
         $Script:dgvFiles.AutoResizeColumn(6) | Out-Null
@@ -5250,7 +5170,6 @@ try {
                 $Script:dgvFiles.AutoResizeColumn(0) | Out-Null     # File name
                 $Script:dgvFiles.AutoResizeColumn(1) | Out-Null     # Type
                 $Script:dgvFiles.AutoResizeColumn(2) | Out-Null     # On server flag
-                #$Script:dgvFiles.AutoResizeColumn(3) | Out-Null     # Path segment
                 $Script:dgvFiles.AutoResizeColumn(4) | Out-Null     # Creation date
                 $Script:dgvFiles.AutoResizeColumn(5) | Out-Null     # ID
                 $Script:dgvFiles.AutoResizeColumn(6) | Out-Null     # gallery count
