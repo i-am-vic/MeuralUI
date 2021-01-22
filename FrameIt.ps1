@@ -77,8 +77,8 @@ catch [Exception] {
 $Script:myVersion = '2.1'
 $Script:formGalleriesTitle = $Script:myVersion + ' Gallery Garden'
 
-$Script:emailID = 'xxxxxxxx@xxxxxx.xxx'  # Meural account ID
-$Script:emailPassword = 'xxxxxxxxxxxx'    # Meural account PWD
+$Script:NetgearID = 'xxxxxxxx@xxxxxx.xxx'  # Meural account ID
+$Script:NetgearPassword = 'xxxxxxxxxxxx'    # Meural account PWD
 
 $Script:MaxUserItemCount = 2000
 $Script:MaxGalleries = 500
@@ -230,9 +230,9 @@ Function authenticateMe {
                 Uri         = "https://api.meural.com/v0/authenticate"
                 Method      = "Post"
                 Body        = @{
-                    email=$Script:emailID
-                    username=$Script:emailID
-                    password=$Script:emailPassword
+                    email=$Script:NetgearID
+                    username=$Script:NetgearID
+                    password=$Script:NetgearPassword
                 }
     
             }
@@ -936,8 +936,8 @@ Function formLogin_Load
 		
 	try {
 
-        $Script:txtboxID.Text = $Script:emailID
-        $Script:txtboxPassword.Text = $Script:emailPassword
+        $Script:txtboxID.Text = $Script:NetgearID
+        $Script:txtboxPassword.Text = $Script:NetgearPassword
 
     }
 
@@ -973,8 +973,8 @@ Function buttonLogin_Click ()
         
         else {
             
-            $Script:emailID = $Script:txtboxID.Text
-            $Script:emailPassword = $Script:txtboxPassword.Text
+            $Script:NetgearID = $Script:txtboxID.Text
+            $Script:NetgearPassword = $Script:txtboxPassword.Text
 
             $Script:formLogin.DialogResult = 'OK'
 
@@ -5445,7 +5445,7 @@ try {
 
         $Script:meuralID = APIGetDeviceID $authenticationToken
 
-        $Script:formGalleriesTitle = $Script:formGalleriesTitle + " $Script:emailID"
+        $Script:formGalleriesTitle = $Script:formGalleriesTitle + " $Script:NetgearID"
 
         $Script:formGalleries.Text = $Script:formGalleriesTitle
 
