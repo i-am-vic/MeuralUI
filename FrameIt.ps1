@@ -207,103 +207,6 @@ $Script:alFileList = New-Object 'System.Collections.ArrayList'
 # Utility functions =====================================
 #========================================================
 
-function Resize-Image
-{
-   <#
-    .SYNOPSIS
-        Resize-Image resizes an image file
-
-    .DESCRIPTION
-        This function uses the native .NET API to resize an image file, and optionally save it to a file or display it on the screen. You can specify a scale or a new resolution for the new image.
-        
-        It supports the following image formats: BMP, GIF, JPEG, PNG, TIFF 
-
-        Resize-Image -InputFile "C:\kitten.jpg" -Display
-
-        Resize the image by 50% and display it on the screen.
-
-    .EXAMPLE
-        Resize-Image -InputFile "C:\kitten.jpg" -Width 200 -Height 400 -Display
-
-        Resize the image to a specific size and display it on the screen.
-
-    .EXAMPLE
-        Resize-Image -InputFile "C:\kitten.jpg" -Scale 30 -OutputFile "C:\kitten2.jpg"
-
-        Resize the image to 30% of its original size and save it to a new file.
-
-    .LINK
-        Author: Patrick Lambert - http://dendory.net
-    #>
-    Param([Parameter(Mandatory=$true)][string]$InputFile, [string]$OutputFile, [int32]$Width, [int32]$Height, [int32]$Scale, [Switch]$Display)
-
-    # Add System.Drawing assembly
-    Add-Type -AssemblyName System.Drawing
-
-    try {
-
-        # Open image file
-        $img = [System.Drawing.Image]::FromFile((Get-Item $InputFile))
-
-        # Define new resolution
-        if($Width -gt 0) { [int32]$new_width = $Width }
-        elseif($Scale -gt 0) { [int32]$new_width = $img.Width * ($Scale / 100) }
-        else { [int32]$new_width = $img.Width / 2 }
-        if($Height -gt 0) { [int32]$new_height = $Height }
-        elseif($Scale -gt 0) { [int32]$new_height = $img.Height * ($Scale / 100) }
-        else { [int32]$new_height = $img.Height / 2 }
-
-        # Create empty canvas for the new image
-        $img2 = New-Object System.Drawing.Bitmap($new_width, $new_height)
-
-        # Draw new image on the empty canvas
-        $graph = [System.Drawing.Graphics]::FromImage($img2)
-        $graph.DrawImage($img, 0, 0, $new_width, $new_height)
-
-        # Create window to display the new image
-        if($Display)
-        {
-            Add-Type -AssemblyName System.Windows.Forms
-            $win = New-Object Windows.Forms.Form
-            $box = New-Object Windows.Forms.PictureBox
-            $box.Width = $new_width
-            $box.Height = $new_height
-            $box.Image = $img2
-            $win.Controls.Add($box) | Out-Null
-            $win.AutoSize = $true
-            $win.ShowDialog() | Out-Null
-            $win.Close() | Out-Null
-            $win.Dispose() | Out-Null
-            $box.Dispose() | Out-Null
-        }
-
-        # Save the image
-        if($OutputFile -ne "")
-        {
-            $imageFormat = “System.Drawing.Imaging.ImageFormat” -as [type]
-            $img2.Save($OutputFile, $imageFormat::icon) | Out-Null
-        }
-
-    }
-
-    catch [Exception] {
-
-        Write-Host ("ERROR in: {0} " -f $MyInvocation.MyCommand)
-        Write-Host $Error.Message
-
-    }
-
-    finally {
-
-        $img.Dispose() | Out-Null
-        $img2.Dispose() | Out-Null
-        $graph.Dispose() | Out-Null   
-
-    }
-
-}
-
-
 Function authenticateMe {
 
     $authenticationToken = ''
@@ -3239,20 +3142,6 @@ Function GalleryLocalFileLoadButton_Click () {
                     $filecreateTime = $fileProperty.LastWriteTime
                     $myPath = $fileProperty.DirectoryName
             
-	    <#
-                    #
-                    # Create the icon filename and make sure it does not exist in the working folder
-                    #
-                    $iconFileName = $Script:iconFolder + $myFileName
-        
-                    if (Test-Path $iconFileName) {
-                        Remove-Item $iconFileName | Out-Null
-                    }
-        
-                    Resize-Image -InputFile $line -Scale 1 -OutputFile $iconFileName
-                    $img = [System.Drawing.Image]::Fromfile($iconFileName)
-                    $icon = [System.Drawing.Icon]::FromHandle($img.GetHicon())
-        #>
                     #
                     # Meural ID, Meural image is unknown at this time
                     #
