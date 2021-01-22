@@ -2233,7 +2233,7 @@ Function Build_Define_Galleries_Dialog ()
         $Script:dgvGalleryList.ScrollBars = 'Both' # 'Vertical'
         $Script:dgvGalleryList.ColumnCount = 7
         $Script:dgvGalleryList.Visible = $True
-        $Script:dgvGalleryList.Font = [System.Drawing.Font]::new("Microsoft Sans Serif", 10)
+        $Script:dgvGalleryList.Font = [System.Drawing.Font]::new("Microsoft Sans Serif", 25)
         $Script:dgvGalleryList.SelectionMode = 'FullRowSelect'
         $Script:dgvGalleryList.ColumnHeadersHeightSizeMode = 'AutoSize'
         $Script:dgvGalleryList.AutoSizeRowsMode = "DisplayedCells" #"None" #AllCells, None, AllHeaders, DisplayedHeaders, DisplayedCells
@@ -4054,7 +4054,7 @@ Function Build_Work_With_Gallery_Dialog ()
         $Script:dgvGalleryFiles.ScrollBars = 'Both'
         $Script:dgvGalleryFiles.ColumnCount = 7
         $Script:dgvGalleryFiles.Visible = $True
-        $Script:dgvGalleryFiles.Font = [System.Drawing.Font]::new("Microsoft Sans Serif", 10)
+        $Script:dgvGalleryFiles.Font = [System.Drawing.Font]::new("Microsoft Sans Serif", 25)
         $Script:dgvGalleryFiles.SelectionMode = 'FullRowSelect'
         $Script:dgvGalleryFiles.ColumnHeadersHeightSizeMode = 'AutoSize'
         $Script:dgvGalleryFiles.AutoSizeRowsMode = "DisplayedCells" #"None" #AllCells, None, AllHeaders, DisplayedHeaders, DisplayedCells
@@ -5323,7 +5323,7 @@ Function Build_Server_Files_Dialog () {
         $Script:dgvFiles.ScrollBars = 'Both'
         $Script:dgvFiles.ColumnCount = 8
         $Script:dgvFiles.Visible = $True
-        $Script:dgvFiles.Font = [System.Drawing.Font]::new("Microsoft Sans Serif", 10)
+        $Script:dgvFiles.Font = [System.Drawing.Font]::new("Microsoft Sans Serif", 25)
         $Script:dgvFiles.SelectionMode = 'FullRowSelect'
         $Script:dgvFiles.ColumnHeadersHeightSizeMode = 'AutoSize'
         $Script:dgvFiles.AutoSizeRowsMode = "DisplayedCells" #"None" #AllCells, None, AllHeaders, DisplayedHeaders, DisplayedCells
