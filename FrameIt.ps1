@@ -521,7 +521,7 @@ Function APIDELETEItemFromGallery {
 }
 
 
-Function APIDELETEGallary () {
+Function APIDELETEGallery () {
 
     Param($CurrentID, $AuthenticationToken)
 
@@ -1714,7 +1714,7 @@ Function DeleteGalleries_Click ()
 
                     $Script:formGalleries.Text = $originalTitle + " Deleting gallery $currentName"
 
-                    $RESPONSE = APIDELETEGallary $currentID $authenticationToken
+                    $RESPONSE = APIDELETEGallery $currentID $authenticationToken
 
                 } #switch
 
